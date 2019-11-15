@@ -1,8 +1,10 @@
-var orders = 0
+var orders = $('#table-add tbody tr').length
 
 $( document ).ready(function() {
-    orders++;
-    $('#table-add tbody').append(html(orders))
+    if (orders  == 0){
+        orders++;
+        $('#table-add tbody').append(html(orders))
+    }
 });
 
 $( document ).on("click", ".order-add-label", function() {

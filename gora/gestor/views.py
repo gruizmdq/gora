@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, QueryDict
 from django.forms import formset_factory
 from datetime import datetime
-from .models import Order, Delivery
+from .models import *
 from .forms import *
 
 
@@ -17,17 +17,18 @@ def index(request):
 
 def order_detail(request, id):
     if request.method == "POST":
-        form = DeliveryForm(request.POST)
+        form = OrderForm(request.POST)
         if form.is_valid():
             post = form.save()
             return redirect('order_detail', id=post.pk)
     else:
         try:
-            delivery = Delivery.objects.get(pk=id)
-        except Delivery.DoesNotExist:
-            raise Http404("Question does not exist")
-    form = DeliveryForm(instance=delivery)
-    return render(request, 'order_detail.html', {'form': form})
+            order = Order.objects.get(pk=id)
+            items = Order_Item.objects.filter(id_order = id).values()
+        except Order.DoesNotExist:
+            raise Http404("Order does not exist")
+        form = OrderForm(instance=order)
+    return render(request, 'order_detail.html', {'form': form, 'items': items})
 
 def order_add(request):
     if request.method == "POST":
@@ -49,8 +50,7 @@ def order_add(request):
             return redirect('order_detail', id=post.pk)
     else:
         form = OrderForm()
-        forms = formset_factory(TypeOrderForm)
-    context = {'form': form, 'forms': forms}
+    context = {'form': form}
     return render(request, 'order_add.html', context)
 
 
