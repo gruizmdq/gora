@@ -14,11 +14,6 @@ class Delivery(models.Model):
         return self.name + " " + self.last_name
 
 class Order(models.Model):
-    ORDER_TYPE = (
-        ('S', 'Salad'),
-        ('B', 'Balance'),
-        ('T', 'Temping')
-    )
     ORDER_SHIFT = (
         ('H1', 'Turno 1'),
         ('H2', 'Turno 2')
@@ -37,12 +32,7 @@ class Order(models.Model):
     address = models.CharField(max_length=150, default="", verbose_name=u"Dirección")
     qty = models.IntegerField(default=1, verbose_name=u"Cantidad")
     is_forever = models.BooleanField(default=False, verbose_name=u"Es un pedido fijo?")
-    observations = models.TextField(verbose_name=u"Observaciones", null=True)
-    order_type = models.CharField(
-        max_length = 1,
-        verbose_name=u"Tipo de Pedido",
-        choices = ORDER_TYPE
-    )
+    observations = models.TextField(verbose_name=u"Observaciones", null=True)    
     order_shift = models.CharField(
         max_length = 2,
         verbose_name=u"Turno",
@@ -64,4 +54,17 @@ class Order(models.Model):
         verbose_name=u"Estado",
         choices = ORDER_STATE,
         default = "B"
+    )
+
+class Order_Item(models.Model):
+    ORDER_TYPE = (
+        ('S', 'Salad'),
+        ('B', 'Balance'),
+        ('T', 'Temping')
+    )
+    id_order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    qty = models.IntegerField(default=1, verbose_name=u"Cantidad")
+    order_type = models.CharField(
+        max_length = 1,
+        choices = ORDER_TYPE
     )

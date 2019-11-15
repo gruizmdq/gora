@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from .models import Delivery, Order
+from django import forms
+from .models import Delivery, Order, Order_Item
 
 class DeliveryForm(ModelForm):
     class Meta: 
@@ -9,5 +10,10 @@ class DeliveryForm(ModelForm):
 class OrderForm(ModelForm):
     class Meta: 
         model = Order
-        fields = ['name', 'address', 'qty', 'is_forever', 'observations', 'order_type', 'order_shift', 
+        fields = ['name', 'address', 'qty', 'is_forever', 'observations', 'order_shift', 
     'delivery_assigned', 'date', 'state']
+
+class TypeOrderForm(ModelForm):
+    class Meta: 
+        model = Order_Item
+        fields = ['id_order', 'qty', 'order_type']

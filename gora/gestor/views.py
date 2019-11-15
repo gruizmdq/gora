@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, QueryDict
+from django.forms import formset_factory
 from datetime import datetime
 from .models import Order, Delivery
 from .forms import *
@@ -33,10 +34,23 @@ def order_add(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             post = form.save()
+            if post:
+                index = 0
+                for i in request.POST.getlist("qty[]"):
+                    index += 1
+                    key_type = "order-type-" + str(index)
+                    i = {"id_order": post.pk, "qty": i, "order_type": request.POST.get(key_type)}
+                    item_form = TypeOrderForm(i)
+                    if item_form.is_valid():
+                            item_form.save()
+                    else:
+                        print("Tirar Excepcionnnnn")
+
             return redirect('order_detail', id=post.pk)
     else:
         form = OrderForm()
-    context = {'form': form}
+        forms = formset_factory(TypeOrderForm)
+    context = {'form': form, 'forms': forms}
     return render(request, 'order_add.html', context)
 
 

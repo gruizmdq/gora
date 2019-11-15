@@ -2,6 +2,6 @@
     background: #4285f4!important;
     color: white!important
 }
-.order-edit-label{
+.order-edit-label, .order-borrar-label, .order-add-label{
     cursor: pointer;
 }

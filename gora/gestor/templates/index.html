@@ -48,7 +48,6 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Cantidad</th>
-                <th scope="col">Tipo</th>
                 <th scope="col">Turno</th>
                 <th scope="col">Delivery</th>
                 <th scope="col">Estado</th>
@@ -61,7 +60,6 @@
                     <th scope="row">{{ o.name }}</th>
                     <td>{{ o.address }}</td>
                     <td>{{ o.qty }}</td>
-                    <td>{{ o.get_order_type_display }}</td>
                     <td>{{ o.get_order_shift_display }}</td>
                     <td>{{ o.delivery_assigned }}</td>
                     <td>{{ o.get_state_display }}</td>
