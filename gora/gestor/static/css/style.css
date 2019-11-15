@@ -1,0 +1,7 @@
+.boton .nav-item.active .btn{
+    background: #4285f4!important;
+    color: white!important
+}
+.order-edit-label{
+    cursor: pointer;
+}

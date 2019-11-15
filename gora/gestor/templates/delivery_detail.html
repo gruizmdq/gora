@@ -1,0 +1,18 @@
+{% extends 'html.html' %}
+{% load static %}    
+{% block content %}
+
+<h4 class="w-100 py-3 px-3 title z-depth-1">Deliverys</h4>
+
+
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock %}

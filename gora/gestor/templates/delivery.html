@@ -1,0 +1,54 @@
+{% extends 'html.html' %}
+{% load static %}    
+{% block content %}
+
+<h4 class="w-100 py-3 px-3 title z-depth-1">Deliverys</h4>
+
+<div class="my-3 row">
+    <div class="col-md-12">
+        <ul class="boton nav">
+            <li class="nav-item">
+                <a href="{% url 'delivery_add' %}"><button type="button" class="btn btn-outline-primary waves-effect btn-sm">Agregar Devilery</button></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="mt-3 row">
+    <div class="col-md-12">
+        <table id="tabla" class="py-2 px-1 table table-sm table-striped  table-bordered">
+            <thead>
+                <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Celular</th>
+                <th scope="col">Máximo de Pedidos</th>
+                <th scope="col">Pedidos Entregados</th>
+                <th scope="col">Pedidos Cancelados</th>
+                <th scope="col">Pedidos Pendientes</th>
+                <th scope="col">-</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in deliverys %}
+                <tr>
+                    <th scope="row">{{ d.name }}</th>
+                    <td>{{ d.last_name }}</td>
+                    <td>{{ d.phone }}</td>
+                    <td>{{ d.cart_size }}</td>
+                    <td>{{ d.orders_shipped }}</td>
+                    <td>{{ d.orders_failure }}</td>
+                    <td>12</td>
+                    <td class="text-center"><a href="{% url 'delivery_detail' id=d.pk %}"><span class="badge badge-warning order-edit-label py-1 px-2">Editar</span></a></td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+            </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock %}

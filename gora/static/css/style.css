@@ -1,0 +1,140 @@
+strong{
+  font-weight: bold
+}
+
+
+.img-fluid, .img-thumbnail {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/*********************
+  HELPERS
+  ********************  */
+
+.m-5-rems{
+  margin: 10rem 0
+}
+.white{
+    background: white !important
+}
+.sidebar.fas{
+    width: 15px;
+    text-align: center;
+}
+.input-error{
+  border-bottom: 2px solid red !important;
+}
+.input-success{
+  border-bottom: 2px solid green !important;
+}
+.shadow-1{
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,0.0) !important; 
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,0.0) !important;
+}
+.radius-10{
+  border-radius: 10px
+}
+.radius-top-10{
+  border-radius: 10px 10px 0px 0px
+}
+.nhs-blue{
+  background: #005EB8;
+}
+.nhs-dark-blue{
+  background: #003087;
+}
+.border-bottom-black{
+  border-bottom: 2px solid #2E2E2E;
+  padding: 5px
+}
+.tag{
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 3px 10px;
+  border-radius: 0 10px 0 0;
+  z-index: 10;
+}
+.news-card{
+  border: 1px solid #e0e0e0;
+}
+
+.noticia-contenido-card h2, .noticia-contenido-card h1{
+  font-weight: bold;
+}
+.noticia-contenido-card h2, .noticia-contenido-card h1, .noticia-contenido-card h3, .noticia-contenido-card h4, .noticia-contenido-card h5, .noticia-contenido-card h6, .noticia-contenido-card p{
+  font-size: 16px !important
+}
+/*********************
+  FOOTER
+  ********************  */
+.footer-copyright {
+    overflow: hidden;
+    color: rgba(255,255,255,.6);
+}
+.footer-wrapper{
+    width: 100%;
+    bottom: 0;
+    
+}
+
+  /*********************
+  BORDERS
+  ********************  */
+  .border-left-blue-wide{
+    border: 0px !important;
+    border-left: 1em #2196f3 solid!important;
+  }
+  .border-left-blue{
+    border: 0px !important;
+    border-left: 3px #2196f3 solid!important;
+  }
+
+    .border-white{
+        border: 2px solid white
+    }
+
+
+  
+  /*********************** 
+  CARDS
+  ***********************/
+  .card-header{
+    border: none !important;
+  }
+  .card-header-detection{
+    border: none !important;
+    height: 125px
+  }
+  .full-size{
+    top: 0;
+    right: 0;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  
+  .card-img-top{
+    width: auto!important;
+    height: 200px!important;
+  }
+  
+
+
+  /* BOTONES */
+  .actions-ul{
+      list-style: none;
+  }
+  .actions-ul li{
+      display: inline-block;
+      margin: 5px;
+  }
+
+
+  
+
+  /* LANDING */
+    .service-wrapper{
+      font-size: 3rem
+    }

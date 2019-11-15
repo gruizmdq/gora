@@ -1,0 +1,76 @@
+
+{% load static %}
+  <!--Main Navigation-->
+  <header>
+      
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color-dark scrolling-navbar">
+      <div class="container-fluid">
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link waves-effect" href="#">Menú item 1
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Menú item 2.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Menú item 3.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Menú item 4</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Etcetera...</a>
+            </li>
+          </ul>
+          <button class="btn btn-outline-white btn-sm my-0" type="submit">Agregar Pedido</button>
+        </div>
+
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Sidebar -->
+    <div class="sidebar-fixed overflow-auto position-fixed stylish-color">
+     
+      <div class="sidebar-user">
+        <img src="{% static 'images/logo.png' %}" class="img-fluid rounded-circle mb-2 border-white" alt="Logo de Gora">
+        <div>
+          <small>Bienvenido</small>
+        </div>
+        <div class="font-weight-bold">Gora Puto</div>
+      </div>
+      <div class="user-logo">
+        <div class="user-avatar">
+            <img src="" class="img-fluid" alt="">
+        </div>
+
+      </div>
+      <div class="list-group list-group-flush">
+        <!-- list-group-item active waves-effect -->
+        <a href="{% url 'index' %}" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
+          <i class="fas fa-home mr-3"></i>Inicio
+        </a>
+        <a href="liquidacion.html" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
+          <i class="fas fa-cart-plus mr-3"></i>Nuevo Pedido</a>
+        <a href="{% url 'delivery' %}" class="list-group-item list-group-item-action stylish-color text-white waves-effect">
+          <i class="fas fa-motorcycle mr-3"></i>Deliverys</a>
+        <a href="cuenta_corriente.html" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
+          <i class="fas fa-route mr-3"></i>Ruta</a>
+      </div>
+
+    </div>
+
+  </header>
