@@ -10,7 +10,7 @@ class DeliveryForm(ModelForm):
 class OrderForm(ModelForm):
     class Meta: 
         model = Order
-        fields = ['name', 'address', 'qty', 'is_forever', 'observations', 'order_shift', 
+        fields = ['name', 'address', 'is_forever', 'observations', 'order_shift', 
     'delivery_assigned', 'date', 'state']
 
 class TypeOrderForm(ModelForm):

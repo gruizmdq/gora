@@ -1,6 +1,7 @@
 import django
 from django.db import models
 from datetime import datetime, timedelta
+import gestor.constants as C
 
 class Delivery(models.Model):
     name = models.CharField(max_length=50, default="", verbose_name=u"Nombre")
@@ -20,7 +21,7 @@ class Order(models.Model):
     )
     ORDER_STATE = (
         ('B', 'Blanco'),
-        ('En', 'Entregado'),
+        (C.ORDER_STATE_SUCCESS, C.ORDER_STATE_SUCCESS_TEXT),
         ('Ca', 'Cancelado'),
         ('Ve', 'Verde'),
         ('R', 'Rojo'),
@@ -55,6 +56,9 @@ class Order(models.Model):
         choices = ORDER_STATE,
         default = "B"
     )
+    
+    def __str__(self):
+        return self.name.upper() + " " + self.date.strftime('%H:%M - %Y/%m/%d')
 
 class Order_Item(models.Model):
     ORDER_TYPE = (

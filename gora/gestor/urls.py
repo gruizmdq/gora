@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     # ex: /gestor/
     path('', views.index, name='index'),
+    # ex: /gestor/orders/
+    path('orders/', views.orders, name='orders'),
     # ex: /gestor/orders/5/
     path('orders/<int:id>/', views.order_detail, name='order_detail'),
     # ex: /gestor/orders/add/

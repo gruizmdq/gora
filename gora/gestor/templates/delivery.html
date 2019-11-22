@@ -37,7 +37,7 @@
                     <td>{{ d.cart_size }}</td>
                     <td>{{ d.orders_shipped }}</td>
                     <td>{{ d.orders_failure }}</td>
-                    <td>12</td>
+                    <td>{{ d.orders_pending }}</td>
                     <td class="text-center"><a href="{% url 'delivery_detail' id=d.pk %}"><span class="badge badge-warning order-edit-label py-1 px-2">Editar</span></a></td>
                 </tr>
                 {% endfor %}
