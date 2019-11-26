@@ -35,7 +35,7 @@
               <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Etcetera...</a>
             </li>
           </ul>
-          <button class="btn btn-outline-white btn-sm my-0" type="submit">Agregar Pedido</button>
+          <a class="btn btn-outline-white btn-sm my-0" href="{% url 'order_add' %}">Agregar Pedido</a>
         </div>
 
       </div>
@@ -63,7 +63,7 @@
         <a href="{% url 'index' %}" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
           <i class="fas fa-home mr-3"></i>Inicio
         </a>
-        <a href="liquidacion.html" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
+        <a href="{% url 'order_add' %}" class="list-group-item list-group-item-action stylish-color text-white  waves-effect">
           <i class="fas fa-cart-plus mr-3"></i>Nuevo Pedido</a>
         <a href="{% url 'delivery' %}" class="list-group-item list-group-item-action stylish-color text-white waves-effect">
           <i class="fas fa-motorcycle mr-3"></i>Deliverys</a>
