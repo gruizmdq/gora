@@ -7,7 +7,7 @@ class OrderForm(ModelForm):
     #id_menu = forms.ModelChoiceField(queryset=Menu.objects.filter(is_forever = True).all(), empty_label="(Nothing)")
     
     def __init__(self, *args, **kwargs):
-        date = kwargs.pop('date')
+        date = kwargs.get('initial').get('date')
         super(OrderForm, self).__init__(*args, **kwargs)
         self.fields['id_menu'] = forms.ModelMultipleChoiceField(
                 required=True,

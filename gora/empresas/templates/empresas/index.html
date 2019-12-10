@@ -1,45 +1,54 @@
 {% extends 'html.html' %}
 {% load static %}    
 {% block content %}
-{% for f in next_week_forms %}
-{{ f.as_p }}
-{% endfor %}
-<h4 class="w-100 py-3 px-3 title z-depth-1">Pedidos de la semana</h4>
-<div class="my-3 row">
-    <div class="col">
-        <div class="card px-3 py-3">
-            <h5 class="my-0 mx-0">Lúnes {{ form.date.value|date:'d/m' }}</h5>
-            <hr>
-            {{ form.as_p }}
-        </div>
-    </div>
-    <div class="col">
-        <div class="card px-3 py-3">
-            <h5 class="my-0 mx-0">Martes</h5>
-            <hr>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card px-3 py-3">
-            <h5 class="my-0 mx-0">Miércoles</h5>
-            <hr>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card px-3 py-3">
-            <h5 class="my-0 mx-0">Jueves</h5>
-            <hr>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card px-3 py-3">
-            <h5 class="my-0 mx-0">Viernes</h5>
-            <hr>
-            <div class="day-menu">
+<div class="row w-100">
+    <h4 class="w-100 py-3 px-3 title z-depth-1">Pedidos de la semana que viene</h4>
+    <form method="POST" class="post-form">{% csrf_token %}
+        <div class="my-3 row">
+            
+                {% for f in next_week_forms %}
+                <div class="col">
+                    <div class="card px-3 py-3">
+                        <h5 class="my-0 mx-0">{{ f.date| date:"l" }} {{ f.date|date:'d/m' }}</h5>
+                        <hr>
+                        {% for m in f.menus %}
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}">
+                            <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>   
+                {% endfor %}
 
-            </div>
         </div>
-    </div>
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+</div>
+
+<div class="row w-100 my-3">
+    <h4 class="w-100 py-3 px-3 title z-depth-1">Pedidos de esta semana</h4>
+    <form method="POST" class="post-form">{% csrf_token %}
+        <div class="my-3 row">
+            
+                {% for f in next_week_forms %}
+                <div class="col">
+                    <div class="card px-3 py-3">
+                        <h5 class="my-0 mx-0">{{ f.date| date:"l" }} {{ f.date|date:'d/m' }}</h5>
+                        <hr>
+                        {% for m in f.menus %}
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}">
+                            <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>   
+                {% endfor %}
+
+        </div>
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
 </div>
 
 <div class="row">
