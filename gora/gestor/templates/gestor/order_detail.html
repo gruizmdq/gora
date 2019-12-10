@@ -1,0 +1,67 @@
+{% extends 'html.html' %}
+{% load static %}    
+{% block content %}
+
+<h4 class="w-100 py-3 px-3 title z-depth-1">Ordenes</h4>
+
+
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+
+    <table id="table-add" class="py-2 px-1 table table-sm  table-bordered">
+        
+        <thead>
+            <tr>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">-</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+
+            <tr id="item-{{ forloop.counter }}">
+                <th><input class="order-add-input" type="number" name="qty[]" step="1" min="1" value="{{ i.qty }}">
+                </th>
+                <td>
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="salad-{{ forloop.counter }}" name="order-type-{{ forloop.counter }}" value="S" {% if i.order_type == 'S' %}checked{% endif %}>
+                                <label class="custom-control-label" for="salad-{{ forloop.counter }}">Salad</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="balance-{{ forloop.counter }}" name="order-type-{{ forloop.counter }}" value="B" {% if i.order_type == 'B' %}checked{% endif %}>
+                                <label class="custom-control-label" for="balance-1">Balance</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="temping-{{ forloop.counter }}" name="order-type-{{ forloop.counter }}" value="T" {% if i.order_type == 'T' %}checked{% endif %}>
+                                <label class="custom-control-label" for="temping-{{ forloop.counter }}">Temping</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span id="borrar-{{ forloop.counter }}" class="badge badge-danger order-borrar-label py-1 px-2 mr-2">Borrar</span>
+                    <span id="agregar-{{ forloop.counter }}" class="badge badge-success order-add-label py-1 px-2">Agregar</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>     
+
+    
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/order.js' %}"></script>
+{% endblock %}
