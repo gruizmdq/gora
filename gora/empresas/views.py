@@ -22,9 +22,12 @@ def index(request):
     context = {'actual_week_orders': actual_week_orders, 'next_week_forms': next_week_forms}
     return render(request, 'empresas/index.html', context)
 
-def add_orders(request):
+def order_add(request):
     if request.method == "POST":
-        form = OrderForm(request.POST)
+        for key in filter(lambda x: x != "csrfmiddlewaretoken", request.POST):
+            value = request.POST[key]
+            print(key, value)
+        """form = OrderForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.qty = sum(int(x) for x in request.POST.getlist("qty[]"))
@@ -40,7 +43,9 @@ def add_orders(request):
                     else:
                         print("Tirar Excepcionnnnn")
 
-            return redirect(C.ORDER_DETAIL, id=post.pk)
+            return redirect(C.ORDER_DETAIL, id=post.pk)"""
+        print("R: " , request.body, "asd ", request.POST)
+        return redirect("/empresas")
 
 def get_next_day(weekday):
     return (datetime.today().weekday()+weekday+1)% 7

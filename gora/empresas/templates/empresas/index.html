@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row w-100">
     <h4 class="w-100 py-3 px-3 title z-depth-1">Pedidos de la semana que viene</h4>
-    <form method="POST" class="post-form">{% csrf_token %}
+    <form action="{% url 'empresas:order_add' %}" method="POST" class="post-form">{% csrf_token %}
         <div class="my-3 row">
             
                 {% for f in next_week_forms %}
@@ -13,7 +13,7 @@
                         <hr>
                         {% for m in f.menus %}
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}">
+                            <input type="radio" class="custom-control-input" value="{{ m.id }}" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m-y' }}" required>
                             <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
                         </div>
                         {% endfor %}
@@ -38,7 +38,7 @@
                         <hr>
                         {% for m in f.menus %}
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}">
+                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}" required>
                             <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
                         </div>
                         {% endfor %}
@@ -63,5 +63,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'empresas/js/index.js' %}"></script>
 {% endblock %}
