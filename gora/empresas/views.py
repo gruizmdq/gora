@@ -5,7 +5,25 @@ from datetime import datetime, timedelta
 from .models import *
 from .forms import *
 from django.forms import formset_factory
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
+def login(request):
+    if request.method == "POST":
+        username = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        print(username, password, user)
+        if user is not None:
+            login(request, user)
+            return redirect("/empresas")
+        else:
+            messages.error(request,'Email y/o contraseña inváldos.')
+            return redirect('/empresas/login/')
+    return render(request, 'empresas/login.html')
+
+@login_required(login_url='/empresas/login/')
 def index(request):
     next_week_forms = []
     #new orders to be creted.
@@ -25,7 +43,12 @@ def index(request):
 def order_add(request):
     if request.method == "POST":
         for key in filter(lambda x: x != "csrfmiddlewaretoken", request.POST):
-            value = request.POST[key]
+            try:
+                menu = Menu.objects.get(pk=request.POST[key])
+                #new_order = Order(id_empresa=empresa, id_empleado=user, id_menu=menu, date=datetime.now())
+                #new_order.save()
+            except Exception as e:
+                print(e)
             print(key, value)
         """form = OrderForm(request.POST)
         if form.is_valid():
