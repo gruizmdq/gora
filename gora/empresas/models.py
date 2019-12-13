@@ -46,4 +46,4 @@ class Order(models.Model):
     )
     
     def __str__(self):
-        return self.id_empleado.name + " " + self.id_empresa.name + " " + self.id_menu.name + " " + self.date.strftime('%H:%M - %Y/%m/%d')
+        return str(self.id_empleado) + " " + self.id_menu.name + " " + self.date.strftime('%H:%M - %Y/%m/%d')

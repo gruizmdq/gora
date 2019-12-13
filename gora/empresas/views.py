@@ -8,13 +8,13 @@ from django.forms import formset_factory
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 def login(request):
     if request.method == "POST":
         username = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(username, password, user)
         if user is not None:
             login(request, user)
             return redirect("/empresas")
@@ -27,16 +27,32 @@ def login(request):
 def index(request):
     next_week_forms = []
     #new orders to be creted.
-    if (datetime.today().weekday() >0):
+    if (datetime.today().weekday() > 0):
         days_to_monday = 7 - datetime.today().weekday()
         for i in range(5):
             date = (datetime.now() + timedelta(i+days_to_monday)).date()
             menus = Menu.objects.filter(Q(date__contains=date) | Q(is_forever=True)).all()
-            next_week_forms.append({"date": date, "menus": menus})
-
+            try:
+                order = Order.objects.get(id_empleado=request.user, date__contains=date)
+                id_menu = order.id_menu.id
+            except Order.DoesNotExist:
+                id_menu = -1
+            next_week_forms.append({"date": date, "menus": menus, "id_menu": id_menu})
     #actual orders.
     #get last monday. Get order one by one. If order == null, create blank order or form to be created.
+    
+    last_monday = (datetime.now() - timedelta(datetime.today().weekday()))
     actual_week_orders = []
+    for i in range(5):
+        date = (last_monday + timedelta(i)).date()
+        menus = Menu.objects.filter(Q(date__contains=date) | Q(is_forever=True)).all()
+        try:
+            order = Order.objects.get(id_empleado=request.user, date__contains=date)
+            id_menu = order.id_menu.id
+        except Order.DoesNotExist:
+            order = Order(id_empresa=request.user.empresa, id_empleado=request.user, id_menu=None, date=date)
+        actual_week_orders.append(order)
+    #ACTUAL ORDERS NO MOSTRAR MENUES QUIZA, SOLO EL ELEGIDO
     context = {'actual_week_orders': actual_week_orders, 'next_week_forms': next_week_forms}
     return render(request, 'empresas/index.html', context)
 
@@ -45,29 +61,15 @@ def order_add(request):
         for key in filter(lambda x: x != "csrfmiddlewaretoken", request.POST):
             try:
                 menu = Menu.objects.get(pk=request.POST[key])
-                #new_order = Order(id_empresa=empresa, id_empleado=user, id_menu=menu, date=datetime.now())
-                #new_order.save()
+                order = Order.objects.get(id_empleado=request.user, date__contains=datetime.strptime(key, '%d-%m-%y').date())
+                order.id_menu = menu
+                order.save()
+            except Order.DoesNotExist:
+                order = Order(id_empresa=request.user.empresa, id_empleado=request.user, id_menu=menu, date=datetime.strptime(key, '%d-%m-%y'))
+                order.save()
             except Exception as e:
                 print(e)
-            print(key, value)
-        """form = OrderForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.qty = sum(int(x) for x in request.POST.getlist("qty[]"))
-            post.save()
-            if post:
-                index = 0
-                for i in request.POST.getlist("qty[]"):
-                    index += 1
-                    key_type = "order-type-" + str(index)
-                    item_form = TypeOrderForm({"id_order": post.pk, "qty": i, "order_type": request.POST.get(key_type)})
-                    if item_form.is_valid():
-                            item_form.save()
-                    else:
-                        print("Tirar Excepcionnnnn")
-
-            return redirect(C.ORDER_DETAIL, id=post.pk)"""
-        print("R: " , request.body, "asd ", request.POST)
+            
         return redirect("/empresas")
 
 def get_next_day(weekday):

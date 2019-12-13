@@ -13,7 +13,11 @@
                         <hr>
                         {% for m in f.menus %}
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" value="{{ m.id }}" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m-y' }}" required>
+                            {% if m.id == f.id_menu %}
+                                <input type="radio" class="custom-control-input" value="{{ m.id }}" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m-y' }}" required checked>
+                            {% else %}
+                                <input type="radio" class="custom-control-input" value="{{ m.id }}" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m-y' }}" required>
+                            {% endif %}
                             <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
                         </div>
                         {% endfor %}
@@ -22,7 +26,7 @@
                 {% endfor %}
 
         </div>
-        <button type="submit" class="save btn btn-default">Save</button>
+        <button type="submit" class="save btn btn-default">Enviar</button>
     </form>
 </div>
 
@@ -31,7 +35,7 @@
     <form method="POST" class="post-form">{% csrf_token %}
         <div class="my-3 row">
             
-                {% for f in next_week_forms %}
+                {% for f in actual_week_orders %}
                 <div class="col">
                     <div class="card px-3 py-3">
                         <h5 class="my-0 mx-0">{{ f.date| date:"l" }} {{ f.date|date:'d/m' }}</h5>
