@@ -9,21 +9,22 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+import empresas.constants as C
 
-def login(request):
+def login_user(request):
     if request.method == "POST":
         username = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("/empresas")
+            return redirect(C.INDEX_URL)
         else:
-            messages.error(request,'Email y/o contraseña inváldos.')
-            return redirect('/empresas/login/')
-    return render(request, 'empresas/login.html')
+            messages.error(request, C.LOGIN_MESSAGE_ERROR)
+            return redirect(C.LOGIN_URL)
+    return render(request, C.LOGIN_TEMPLATE, {"title": C.LOGIN_TITLE})
 
-@login_required(login_url='/empresas/login/')
+@login_required(login_url=C.LOGIN_URL)
 def index(request):
     next_week_forms = []
     #new orders to be creted.
@@ -45,16 +46,14 @@ def index(request):
     actual_week_orders = []
     for i in range(5):
         date = (last_monday + timedelta(i)).date()
-        menus = Menu.objects.filter(Q(date__contains=date) | Q(is_forever=True)).all()
         try:
             order = Order.objects.get(id_empleado=request.user, date__contains=date)
-            id_menu = order.id_menu.id
         except Order.DoesNotExist:
             order = Order(id_empresa=request.user.empresa, id_empleado=request.user, id_menu=None, date=date)
         actual_week_orders.append(order)
     #ACTUAL ORDERS NO MOSTRAR MENUES QUIZA, SOLO EL ELEGIDO
-    context = {'actual_week_orders': actual_week_orders, 'next_week_forms': next_week_forms}
-    return render(request, 'empresas/index.html', context)
+    context = {'title': C.INDEX_TITLE, 'actual_week_orders': actual_week_orders, 'next_week_forms': next_week_forms}
+    return render(request, C.INDEX_TEMPLATE, context)
 
 def order_add(request):
     if request.method == "POST":
@@ -70,7 +69,7 @@ def order_add(request):
             except Exception as e:
                 print(e)
             
-        return redirect("/empresas")
+        return redirect(C.APP_ROOT_PATH)
 
 def get_next_day(weekday):
     return (datetime.today().weekday()+weekday+1)% 7

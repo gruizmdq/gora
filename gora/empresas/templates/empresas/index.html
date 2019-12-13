@@ -40,12 +40,9 @@
                     <div class="card px-3 py-3">
                         <h5 class="my-0 mx-0">{{ f.date| date:"l" }} {{ f.date|date:'d/m' }}</h5>
                         <hr>
-                        {% for m in f.menus %}
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="{{ m.id }}_{{ f.date|date:'d-m' }}" name="{{ f.date|date:'d-m' }}" required>
-                            <label class="custom-control-label" for="{{ m.id }}_{{ f.date|date:'d-m' }}">{{ m }}</label>
+                            <h6>{{ f.id_menu }}</h6>
                         </div>
-                        {% endfor %}
                     </div>
                 </div>   
                 {% endfor %}
