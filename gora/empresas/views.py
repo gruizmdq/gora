@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 import empresas.constants as C
 
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST['email']
@@ -23,6 +24,7 @@ def login_user(request):
             messages.error(request, C.LOGIN_MESSAGE_ERROR)
             return redirect(C.LOGIN_URL)
     return render(request, C.LOGIN_TEMPLATE, {"title": C.LOGIN_TITLE})
+
 
 @login_required(login_url=C.LOGIN_URL)
 def index(request):
@@ -55,6 +57,8 @@ def index(request):
     context = {'title': C.INDEX_TITLE, 'actual_week_orders': actual_week_orders, 'next_week_forms': next_week_forms}
     return render(request, C.INDEX_TEMPLATE, context)
 
+
+@login_required(login_url=C.LOGIN_URL)
 def order_add(request):
     if request.method == "POST":
         for key in filter(lambda x: x != "csrfmiddlewaretoken", request.POST):
@@ -71,6 +75,32 @@ def order_add(request):
             
         return redirect(C.APP_ROOT_PATH)
 
-def get_next_day(weekday):
-    return (datetime.today().weekday()+weekday+1)% 7
+
+@login_required(login_url=C.LOGIN_URL)
+def account(request):
+    orders = Order.objects.filter(id_empleado=request.user).order_by("-date").all()[:5]
+    orders2 = Order.objects.filter(id_empleado=request.user).order_by("-date").all()[5:10]
+    context = {'title': C.ACCOUNT_TITLE, 'user': request.user, 'orders': orders, 'orders2': orders2}
+    return render(request, C.ACCOUNT_TEMPLATE, context)
+
+
+@login_required(login_url=C.LOGIN_URL)
+def change_password(request):
+    if request.method == "POST":
+        if request.POST['new_password2'] == request.POST['new_password']:
+            try:
+                user = authenticate(username=request.user.email, password=request.POST['old_password'])
+                if user is not None:
+                    user.set_password(request.POST['new_password'])
+                    user.save()
+                else:
+                    messages.error(request, C.CHANGE_PASSWORD_MESSAGE_ERROR)
+                    return redirect(C.ACCOUNT_URL)
+            except Exception as e:
+                print(e)
+        else:
+            messages.error(request, C.CHANGE_PASSWORD_NOT_MATCH_MESSAGE_ERROR)
+            return redirect(C.ACCOUNT_URL)
+    return redirect(C.ACCOUNT_URL)
+
 

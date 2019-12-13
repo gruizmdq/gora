@@ -1,0 +1,44 @@
+{% extends 'html.html' %}
+{% load static %}    
+{% block content %}
+<div class="row w-100">
+    <h4 class="w-100 py-3 px-3 title z-depth-1">Mi Cuenta - {{ user.first_name }} {{ user.last_name }}</h4>
+</div>
+
+<div class="row w-100 mt-3">
+    <div class="col-md-4">
+        <form class="text-center border border-light p-5" action="{% url 'empresas:change_password' %}" method="POST" >{% csrf_token %}
+            <p class="h4 mb-4">Cambiar contraseña</p>
+            <input type="password" name="old_password" id="old_password" class="form-control mb-4" placeholder="Contraseña vieja" required>
+            <input type="password" name="new_password" id="new_password" class="new_password form-control mb-2" placeholder="Contraseña nueva" required minlength="8">
+            <label for="new_password" class="red-text font-small font-italic password-len mb-2"></label>
+            <input type="password" name="new_password2" id="new_password2" class="new_password form-control mb-4" placeholder="Repita contraseña nueva" required minlength="8">
+            <button class="btn btn-info btn-block my-4" type="submit">Enviar</button>
+            {% for message in messages %}
+                <p class="red-text">{{ message }}</p>
+            {% endfor %}
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card px-3 py-3">
+        {% for o in orders %}
+            <h5 class="my-0 mx-0">{{ o.date|date:'d/m' }} | {{ o.id_menu }}</h5>
+            <hr>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card px-3 py-3">
+        {% for o in orders2 %}
+            <h5 class="my-0 mx-0">{{ o.date|date:'d/m' }} | {{ o.id_menu }}</h5>
+            <hr>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'empresas/js/account.js' %}"></script>
+{% endblock %}
